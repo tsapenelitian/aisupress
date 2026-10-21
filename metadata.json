@@ -1,0 +1,6 @@
+{
+  "name": "Penerbit Asosiasi Informatika Sumatera Utara",
+  "description": "Aplikasi web penerbit buku resmi Asosiasi Informatika Sumatera Utara (AISU). Menerbitkan buku untuk umum di semua bidang ilmu dengan performa ultra-ringan dan optimasi SEO tingkat tinggi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

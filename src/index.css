@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Strict zero-animation rule as per specification */
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Minimalist, ultra-clean web typography */
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  scroll-behavior: auto !important;
+}
+
+/* Performance and readability enhancements */
+img {
+  content-visibility: auto;
+}
+
+/* Tabular figures for visitor counter and stats */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
