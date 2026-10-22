@@ -10,6 +10,7 @@ interface HomePageProps {
   onSelectBook: (book: BukuItem) => void;
   onSelectCategory: (category: KategoriItem) => void;
   onNavigateKatalog: () => void;
+  onNavigateYiiCode?: () => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
@@ -19,6 +20,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   onSelectBook,
   onSelectCategory,
   onNavigateKatalog,
+  onNavigateYiiCode,
 }) => {
   // Highlight 8 latest books
   const latestBooks = books.slice(0, 8);
@@ -50,10 +52,19 @@ export const HomePage: React.FC<HomePageProps> = ({
               href="https://wa.me/6282168449797?text=Halo%20Penerbit%20AISU,%20saya%20ingin%20konsultasi%20penerbitan%20buku"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold rounded-sm cursor-pointer"
+              className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-sm cursor-pointer"
             >
               Konsultasi Terbit Buku (WhatsApp)
             </a>
+            {onNavigateYiiCode && (
+              <button
+                onClick={onNavigateYiiCode}
+                className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold rounded-sm cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <span>Unduh Yii2 Siap cPanel (ZIP)</span>
+                <span className="text-[10px] bg-emerald-900/60 px-1 py-0.2 rounded-xs">Lengkap</span>
+              </button>
+            )}
           </div>
         </div>
       </section>

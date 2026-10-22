@@ -1,6 +1,20 @@
-# Root .htaccess - Forward requests to web/ folder cleanly
+# ==============================================================================
+# Root .htaccess - Penerbit AISU (Yii2 Basic Template)
+# Didesain khusus untuk cPanel / Shared Hosting
+# ==============================================================================
+
+Options -Indexes
 RewriteEngine on
 
-# Hilangkan awalan web/ dari URL publik
+# 1. Lindungi file sensitif & berkas sistem dari akses langsung via browser
+<FilesMatch "^(\.env|\.git|composer\.(json|lock)|yii|database\.sql|README\.md|CPANEL_DEPLOYMENT_GUIDE\.md)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# 2. Blokir akses langsung ke folder internal Yii2 (keamanan tingkat tinggi)
+RewriteRule ^(config|models|controllers|views|migrations|runtime|vendor)/ - [F,L,NC]
+
+# 3. Arahkan semua request publik ke folder web/ tanpa mengubah URL di browser
 RewriteCond %{REQUEST_URI} !^/web/
-RewriteRule ^(.*)$ /web/$1 [L]
+RewriteRule ^(.*)$ web/$1 [L]

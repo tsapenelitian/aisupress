@@ -106,13 +106,14 @@ export const Header: React.FC<HeaderProps> = ({
 
           <button
             onClick={() => setActivePage("yii-code")}
-            className={`cursor-pointer px-2 py-0.5 rounded text-xs font-semibold ${
+            className={`cursor-pointer px-2.5 py-1 rounded text-xs font-semibold inline-flex items-center gap-1.5 ${
               activePage === "yii-code"
-                ? "bg-slate-900 text-white"
-                : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                ? "bg-emerald-700 text-white"
+                : "bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200"
             }`}
           >
-            Yii2 Code & ZIP
+            <span>Yii2 cPanel ZIP</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
           </button>
 
           {/* Admin Navigation */}

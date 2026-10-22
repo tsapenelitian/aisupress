@@ -9,6 +9,12 @@
         "email": "tomysatriaalasi@gmail.com"
     },
     "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
     "require": {
         "php": ">=7.4.33 <8.3.0",
         "yiisoft/yii2": "~2.0.45",
@@ -21,8 +27,8 @@
     },
     "config": {
         "process-timeout": 1800,
-        "fxp-asset": {
-            "enabled": false
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
         }
     },
     "scripts": {

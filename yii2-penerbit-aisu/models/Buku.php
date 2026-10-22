@@ -39,6 +39,11 @@ class Buku extends ActiveRecord
     public $coverFile;
 
     /**
+     * @var string|null Data URI atau Base64 saat admin memilih sampel desain cover cepat
+     */
+    public $cover_base64;
+
+    /**
      * {@inheritdoc}
      */
     public static function tableName()
@@ -56,7 +61,7 @@ class Buku extends ActiveRecord
             [['jumlah_halaman', 'kategori_id'], 'integer', 'message' => '{attribute} harus berupa angka bulat.'],
             [['harga'], 'number', 'min' => 0, 'message' => '{attribute} harus berupa nominal angka valid.'],
             [['sinopsis', 'keterangan'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'cover_base64'], 'safe'],
             [['judul', 'slug', 'link_tokopedia', 'link_shopee', 'link_google_book', 'link_google_play', 'cover'], 'string', 'max' => 255],
             [['penulis', 'editor'], 'string', 'max' => 200],
             [['isbn'], 'string', 'max' => 30],
@@ -140,11 +145,67 @@ class Buku extends ActiveRecord
     }
 
     /**
+     * Proses penyimpanan sampel cover cepat (SVG data URI atau Base64 PNG/JPG)
+     */
+    public function saveCoverFromBase64()
+    {
+        if (empty($this->cover_base64)) {
+            return false;
+        }
+
+        $uploadDir = Yii::getAlias('@app/web/uploads/cover/');
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        $baseSlug = !empty($this->judul) ? Inflector::slug($this->judul) : 'buku';
+        $timestamp = time();
+
+        // Cek jika data URI berupa SVG
+        if (strpos($this->cover_base64, 'data:image/svg+xml') === 0) {
+            $svgContent = '';
+            if (strpos($this->cover_base64, ';base64,') !== false) {
+                $parts = explode(';base64,', $this->cover_base64);
+                $svgContent = base64_decode($parts[1]);
+            } else {
+                $parts = explode(',', $this->cover_base64, 2);
+                $svgContent = rawurldecode($parts[1]);
+            }
+            if (!empty($svgContent)) {
+                $fileName = $baseSlug . '_' . $timestamp . '.svg';
+                file_put_contents($uploadDir . $fileName, $svgContent);
+                $this->cover = $fileName;
+                return true;
+            }
+        } elseif (preg_match('/^data:image\/(\w+);base64,/', $this->cover_base64, $matches)) {
+            $ext = strtolower($matches[1]);
+            if ($ext === 'jpeg') $ext = 'jpg';
+            $data = substr($this->cover_base64, strpos($this->cover_base64, ',') + 1);
+            $decoded = base64_decode($data);
+            if ($decoded !== false) {
+                $fileName = $baseSlug . '_' . $timestamp . '.' . $ext;
+                file_put_contents($uploadDir . $fileName, $decoded);
+                $this->cover = $fileName;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * URL Cover Buku
      */
     public function getCoverUrl()
     {
-        if ($this->cover && file_exists(Yii::getAlias('@app/web/uploads/cover/' . $this->cover))) {
+        if (empty($this->cover)) {
+            return Yii::$app->request->baseUrl . '/uploads/cover/default-book.png';
+        }
+        if (strpos($this->cover, 'data:image') === 0 || strpos($this->cover, 'http://') === 0 || strpos($this->cover, 'https://') === 0) {
+            return $this->cover;
+        }
+        $filePath = Yii::getAlias('@app/web/uploads/cover/' . $this->cover);
+        if (file_exists($filePath)) {
             return Yii::$app->request->baseUrl . '/uploads/cover/' . $this->cover;
         }
         return Yii::$app->request->baseUrl . '/uploads/cover/default-book.png';

@@ -83,6 +83,8 @@ class BukuController extends Controller
             $model->coverFile = UploadedFile::getInstance($model, 'coverFile');
             if ($model->coverFile) {
                 $model->uploadCover();
+            } elseif (!empty($model->cover_base64)) {
+                $model->saveCoverFromBase64();
             }
 
             if ($model->save()) {
@@ -112,6 +114,8 @@ class BukuController extends Controller
             $model->coverFile = UploadedFile::getInstance($model, 'coverFile');
             if ($model->coverFile) {
                 $model->uploadCover();
+            } elseif (!empty($model->cover_base64)) {
+                $model->saveCoverFromBase64();
             } else {
                 $model->cover = $oldCover;
             }

@@ -171,7 +171,7 @@ export const YII_FILES_CATALOG: YiiFile[] = [
   {
     path: "views/buku/_form.php",
     category: "view",
-    description: "Form CRUD buku untuk semua field dan berkas cover.",
+    description: "Form CRUD buku interaktif dengan Upload Cover mandiri dan fitur 'Terapkan Sampel Desain Cover Cepat (24 Pilihan Warna)' berlogo resmi AISU.",
     language: "php",
   },
   {
@@ -209,6 +209,12 @@ export const YII_FILES_CATALOG: YiiFile[] = [
     category: "doc",
     description: "Database MySQL dump siap import langsung ke phpMyAdmin dengan 4 tabel dan 8 buku.",
     language: "sql",
+  },
+  {
+    path: "CPANEL_DEPLOYMENT_GUIDE.md",
+    category: "doc",
+    description: "Panduan praktis upload ke cPanel, setting database via phpMyAdmin, izin folder, dan login admin.",
+    language: "markdown",
   },
   {
     path: "README.md",

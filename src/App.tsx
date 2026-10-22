@@ -245,6 +245,7 @@ export default function App() {
             onSelectBook={handleSelectBook}
             onSelectCategory={handleSelectCategory}
             onNavigateKatalog={() => handleNavigate("katalog")}
+            onNavigateYiiCode={() => handleNavigate("yii-code")}
           />
         )}
 
